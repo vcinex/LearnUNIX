@@ -3,14 +3,6 @@
 #define BUFFSIZE 4096
 
 int main(int argc, char *argv[]) {
-
-    int c;
-
-    while ((c = getc(stdin))!= EOF)
-        if((putc(c,stdout))==EOF)
-            err_sys("output error");
-
-    if(ferror(stdin))
-        err_sys("input error");
+    printf("Hello World from process ID %ld",(long)getpid());
     exit(0);
 }
