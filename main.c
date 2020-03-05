@@ -1,18 +1,16 @@
 #include <dirent.h>
 #include "apue.h"
+#define BUFFSIZE 4096
 
 int main(int argc, char *argv[]) {
-    DIR     *dp;
-    struct dirent   *dirp;
+    int n;
+    char buf[BUFFSIZE];
 
-    if(argc != 2)
-        err_quit("usage: ls directorg_name");
+    while ((n = read(STDIN_FILENO,buf,BUFFSIZE)) > 0)
+        if ((write(STDOUT_FILENO,buf,n)) != n)
+            err_sys("write error");
 
-    if((dp = opendir(argv[1])) == NULL)
-        err_sys("can't open %d", argv[1]);
-    while ((dirp = readdir(dp)) != NULL)
-        printf("%s\n",dirp->d_name);
-
-    closedir(dp);
+    if (n < 0)
+        err_sys("read error");
     exit(0);
 }
